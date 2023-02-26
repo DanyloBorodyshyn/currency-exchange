@@ -1,0 +1,18 @@
+<div class="header" *ngIf="inEUR && inEUR; else loading">
+    <div class="container">
+        <div class="cur__wrapper">
+            <div class="cur">
+                <p class="cur__type">USD</p>
+                <p class="cur__value">{{inUSD|number:'2.3'}}</p>
+            </div>
+            <div class="cur">
+                <p class="cur__type">EUR</p>
+                <p class="cur__value">{{inEUR|number:'2.3'}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <p class="text-center">Отримання курсу валют...</p>
+</ng-template>

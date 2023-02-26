@@ -1,0 +1,17 @@
+.header{
+    background-color: #3ce086;
+    min-height: 50px;
+}
+
+.cur__wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+.cur{
+    text-align: center;
+}
+
+.cur + .cur{
+    margin-left: 20px;
+}
