@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
@@ -6,27 +7,30 @@ import { CurrencyService } from 'src/app/services/currency.service';
   templateUrl: './change-form.component.html',
   styleUrls: ['./change-form.component.scss']
 })
-export class ChangeFormComponent implements OnInit {
+export class ChangeFormComponent implements OnInit, OnDestroy {
 
-  constructor(private curService: CurrencyService) { }
+  constructor(private currencyService: CurrencyService) { }
 
-  cur1 = 'UAH'
-  cur2 = 'USD'
-  numInp1: number = 1
-  numInp2!: number
-  usd!: number
-  eur!: number
+  public cur1 = 'UAH'
+  public cur2 = 'USD'
+  public numInp1!: number
+  public numInp2!: number
+  public options = [{value: 'UAH'},{value: 'USD'},{value: 'EUR'}]
+  private usd!: number
+  private eur!: number
+  private uSub!: Subscription
+  private eSub!: Subscription
 
   ngOnInit() {
-    this.curService.getUSD().subscribe(res=>{
+    this.uSub = this.currencyService.getCurrency('USD').subscribe(res=>{
       this.usd = res.info.rate
     })
-    this.curService.getEUR().subscribe(res=>{
+    this.eSub = this.currencyService.getCurrency('EUR').subscribe(res=>{
       this.eur = res.info.rate
     })
   }
 
-  convertValue(){
+  public convertValue(){
     if(this.cur1==='UAH'&&this.cur2==='EUR'){
       this.numInp2 = this.numInp1 / this.eur
     }
@@ -48,7 +52,7 @@ export class ChangeFormComponent implements OnInit {
     else this.numInp2 = this.numInp1
   }
 
-  convertValue1(){
+  public inputValue(){
     if(this.cur1==='UAH'&&this.cur2==='EUR'){
       this.numInp1 = this.numInp2 * this.eur
     }
@@ -68,6 +72,15 @@ export class ChangeFormComponent implements OnInit {
       this.numInp1 = (this.numInp2*this.usd) / this.eur
     }
     else this.numInp1 = this.numInp2
+  }
+
+  ngOnDestroy() {
+    if(this.uSub){
+      this.uSub.unsubscribe()
+    }
+    if(this.eSub){
+      this.eSub.unsubscribe()
+    }
   }
 
 }

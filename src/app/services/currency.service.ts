@@ -10,14 +10,14 @@ export class CurrencyService {
   
   constructor(private http:HttpClient) { }
   
-  apikey ='ahuO6ILxPAHwdvcIj0aXkLvEAHyuQmzu'
+  private apikey ='BQNCg0Amod6F4ycciD1YTXY8EsR4uf3t'
 
   headers = new HttpHeaders({
     'apikey': this.apikey
   })
 
-  getUSD(){
-    return this.http.get<Currency>('https://api.apilayer.com/exchangerates_data/convert?to=UAH&from=USD&amount=1',{
+  getCurrency(value: string){
+    return this.http.get<Currency>(`https://api.apilayer.com/exchangerates_data/convert?to=UAH&from=${value}&amount=1`,{
       headers: this.headers
     }).pipe(
       map((resp)=>{
@@ -28,17 +28,4 @@ export class CurrencyService {
       })
     )
   }
-
-  getEUR(){
-    return this.http.get<Currency>('https://api.apilayer.com/exchangerates_data/convert?to=UAH&from=EUR&amount=1',{
-      headers: this.headers
-    }).pipe(
-      map((resp)=>{
-        console.log(resp)  
-        return{
-          ...resp
-        }
-      })
-    )
-}
 }

@@ -2,21 +2,22 @@
     <div class="select-value">
         <div class="select-item">
             <label for="cur1">Оберіть валюту:</label>
-            <select name="value" id="cur1" [(ngModel)]="cur1" (ngModelChange)="convertValue()">
+            <!-- <select>
                 <option value="UAH">UAH</option>
                 <option value="EUR">EUR</option>
                 <option value="USD">USD</option>
+            </select> -->
+            <select name="value" id="cur1" [(ngModel)]="cur1" (ngModelChange)="convertValue()">
+                <option *ngFor="let option of options" [value]="option.value">{{option.value}}</option>
             </select>
             <input class="cur_input" type="number" [(ngModel)]="numInp1" (ngModelChange)="convertValue()">
         </div>
         <div class="select-item">
             <label for="cur2">Оберіть валюту:</label>
             <select name="value" id="cur2" [(ngModel)]="cur2" (ngModelChange)="convertValue()">
-                <option value="UAH" selected>UAH</option>
-                <option value="EUR">EUR</option>
-                <option value="USD">USD</option>
+                <option *ngFor="let option of options" [value]="option.value">{{option.value}}</option>
             </select>
-            <input class="cur_input" type="number" [(ngModel)]="numInp2" (ngModelChange)="convertValue1()">
+            <input class="cur_input" type="number" [(ngModel)]="numInp2" (ngModelChange)="inputValue()">
         </div>
     </div>
- </div>
+</div>

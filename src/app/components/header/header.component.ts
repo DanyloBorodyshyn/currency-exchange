@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CurrencyService } from 'src/app/services/currency.service';
 
@@ -7,23 +7,31 @@ import { CurrencyService } from 'src/app/services/currency.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
+  
+  private uSub!: Subscription
+  private eSub!: Subscription
+  public inUSD = 0
+  public inEUR = 0
 
-  api = '1aSI8d2y8xt9JszJbGpqRuTqFEuLWNao'
-  uSub!: Subscription
-  eSub!: Subscription
-  inUSD = 0
-  inEUR = 0
-
-  constructor(private curService: CurrencyService){}
+  constructor(private currencyService: CurrencyService){}
 
   ngOnInit() {
-    this.uSub = this.curService.getUSD().subscribe((res)=>{
+    this.uSub = this.currencyService.getCurrency('USD').subscribe((res)=>{
       this.inUSD = res.result     
     })
-    this.eSub = this.curService.getEUR().subscribe((res)=>{
+    this.eSub = this.currencyService.getCurrency('EUR').subscribe((res)=>{
       this.inEUR = res.result     
     })
+  }
+
+  ngOnDestroy() {
+    if(this.uSub){
+      this.uSub.unsubscribe()
+    }
+    if(this.eSub){
+      this.eSub.unsubscribe()
+    }
   }
 
 }
