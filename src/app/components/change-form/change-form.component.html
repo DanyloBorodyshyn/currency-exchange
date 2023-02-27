@@ -2,11 +2,6 @@
     <div class="select-value">
         <div class="select-item">
             <label for="cur1">Оберіть валюту:</label>
-            <!-- <select>
-                <option value="UAH">UAH</option>
-                <option value="EUR">EUR</option>
-                <option value="USD">USD</option>
-            </select> -->
             <select name="value" id="cur1" [(ngModel)]="cur1" (ngModelChange)="convertValue()">
                 <option *ngFor="let option of options" [value]="option.value">{{option.value}}</option>
             </select>
